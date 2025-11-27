@@ -19,6 +19,7 @@
                 <li><a href="<?= BASE_URL ?>/">Home</a></li>
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <li><a href="<?= BASE_URL ?>/posts/create">Novo Post</a></li>
+                    <li><a href="<?= BASE_URL ?>/user/profile">Meu Perfil</a></li>
                     <li><a href="<?= BASE_URL ?>/auth/logout">Sair (<?= $_SESSION['username'] ?>)</a></li>
                 <?php else: ?>
                     <li><a href="<?= BASE_URL ?>/auth/login">Login</a></li>

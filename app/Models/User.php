@@ -65,4 +65,43 @@ class User extends Model {
         $stmt->execute(['username' => $username]);
         return $stmt->fetch();
     }
+
+    /**
+     * Busca um usuário pelo ID.
+     * 
+     * @param int $id ID do usuário.
+     * @return mixed Dados do usuário ou False.
+     */
+    public function findById($id) {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch();
+    }
+
+    /**
+     * Atualiza os dados do usuário.
+     * 
+     * @param int $id ID do usuário.
+     * @param array $data Novos dados do usuário.
+     * @return bool True se atualizado com sucesso, False caso contrário.
+     */
+    public function update($id, $data) {
+        $query = "UPDATE users SET username = :username, email = :email";
+        $params = [
+            'id' => $id,
+            'username' => $data['username'],
+            'email' => $data['email']
+        ];
+
+        // Atualiza a senha apenas se for fornecida
+        if (!empty($data['password'])) {
+            $query .= ", password = :password";
+            $params['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        }
+
+        $query .= " WHERE id = :id";
+        
+        $stmt = $this->db->prepare($query);
+        return $stmt->execute($params);
+    }
 }
