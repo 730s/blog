@@ -23,7 +23,9 @@ class Controller {
      */
     public function view($view, $data = []) {
         // Verifica se o arquivo da view existe
+        // Verifica se o arquivo da view existe
         if (file_exists('../app/Views/' . $view . '.php')) {
+            extract($data);
             require_once '../app/Views/' . $view . '.php';
         } else {
             // Interrompe a execução se a view não for encontrada

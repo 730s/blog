@@ -53,4 +53,16 @@ class User extends Model {
         $stmt->execute(['email' => $email]);
         return $stmt->fetch();
     }
+
+    /**
+     * Busca um usuário pelo nome de usuário.
+     * 
+     * @param string $username Nome de usuário a ser buscado.
+     * @return mixed Dados do usuário ou False.
+     */
+    public function findByUsername($username) {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt->execute(['username' => $username]);
+        return $stmt->fetch();
+    }
 }

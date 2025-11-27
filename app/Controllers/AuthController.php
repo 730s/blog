@@ -22,7 +22,7 @@ class AuthController extends Controller {
                 header('Location: ' . BASE_URL . '/');
             } else {
                 // Exibe erro se as credenciais forem inválidas
-                $this->view('auth/login', ['error' => 'Invalid credentials']);
+                $this->view('auth/login', ['error' => 'Email ou senha incorretos']);
             }
         } else {
             // Exibe o formulário de login
@@ -38,9 +38,15 @@ class AuthController extends Controller {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $userModel = $this->model('User');
             
-            // Validação básica: verifica se o email já existe
+            // Validação: verifica se o email já existe
             if ($userModel->findByEmail($_POST['email'])) {
-                $this->view('auth/register', ['error' => 'Email already exists']);
+                $this->view('auth/register', ['error' => 'Este email já está cadastrado.']);
+                return;
+            }
+
+            // Validação: verifica se o usuário já existe
+            if ($userModel->findByUsername($_POST['username'])) {
+                $this->view('auth/register', ['error' => 'Este nome de usuário já está em uso.']);
                 return;
             }
 
@@ -48,7 +54,7 @@ class AuthController extends Controller {
             if ($userModel->register($_POST)) {
                 header('Location: ' . BASE_URL . '/auth/login');
             } else {
-                $this->view('auth/register', ['error' => 'Registration failed']);
+                $this->view('auth/register', ['error' => 'Falha ao registrar. Tente novamente.']);
             }
         } else {
             // Exibe o formulário de registro

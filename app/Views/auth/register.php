@@ -4,9 +4,17 @@
     <h2><i class="fa-solid fa-user-plus"></i> Cadastro</h2>
 
     <?php if (isset($error)): ?>
-        <div class="alert alert-danger">
-            <i class="fa-solid fa-circle-exclamation"></i> <?= $error ?>
-        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: '<?= $error ?>',
+                    confirmButtonColor: '#d6e6c3',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
     <?php endif; ?>
 
     <form action="<?= BASE_URL ?>/auth/register" method="POST">
